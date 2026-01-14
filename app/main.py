@@ -1,0 +1,22 @@
+from fastapi import FastAPI
+from app.database import engine
+from app.models import AdminUser, Product, ProductViewEvent, EnquiryClickEvent
+from app.routes import auth
+from app.routes.auth import router as auth_router 
+from app.routes.products import router as product_router
+from app.routes.analytics import router as analytics_router
+
+app = FastAPI(title="Product Enquiry API")
+
+@app.on_event("startup")
+def create_tables():
+    from app.database import Base 
+    Base.metadata.create_all(bind=engine) 
+
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
+
+app.include_router(auth.router, prefix="/auth", tags=["Auth"])
+app.include_router(product_router)
+app.include_router(analytics_router)

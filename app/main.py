@@ -5,6 +5,7 @@ from app.models import AdminUser, Product, ProductViewEvent, EnquiryClickEvent
 from app.routes.auth import router as auth_router
 from app.routes.products import router as product_router
 from app.routes.analytics import router as analytics_router
+from app.routes.chatbot import router as chatbot_router
 
 app = FastAPI(title="Product Enquiry API")
 
@@ -29,6 +30,11 @@ def health_check():
 app.include_router(auth_router)
 app.include_router(product_router)
 app.include_router(analytics_router)
+
+
+app = FastAPI()
+
+app.include_router(chatbot_router, prefix="/api")
 
 #from fastapi import FastAPI
 #from app.database import engine

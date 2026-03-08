@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 
 from app.database import get_db
 from app.models.product_view_event import ProductViewEvent
@@ -30,3 +31,17 @@ def log_enquiry_click(
     db.commit()
     return {"status": "enquiry_logged"}
 
+@router.get("/summary")
+def analytics_summary(db: Session = Depends(get_db)):
+    total_views = db.query(func.count(ProductViewEvent.id)).scalar()
+    total_enquiries = db.query(func.count(EnquiryClickEvent.id)).scalar()
+
+    conversion_rate = 0
+    if total_views:
+        conversion_rate = round((total_enquiries / total_views) * 100, 2)
+
+    return {
+        "total_views": total_views,
+        "enquiry_clicks": total_enquiries,
+        "conversion_rate": conversion_rate,
+    }

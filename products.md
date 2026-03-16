@@ -46,7 +46,6 @@ EN 166, ANSI Z87.1
 
 FACE SHIELD – BLUE
 KSE-FACE-SHIELD-BLU
-KSE-FACE-SHIELD-BLU
 Head Protection
 Durable face shield with a clear visor and blue frame, providing protection against impact, chemical splashes, and debris. Suitable for various industrial applications, including manufacturing and laboratory work.
 EN 166, ANSI Z87.1

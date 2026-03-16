@@ -8,6 +8,11 @@ from datetime import datetime, timedelta
 
 from app.core.security import create_access_token
 
+from sqlalchemy.orm import Session
+from fastapi import Depends
+from app.database import get_db
+from app.models.admin_user import AdminUser
+
 load_dotenv()
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
@@ -53,9 +58,8 @@ def request_otp():
         "expires_in_seconds": 300
     }
 
-
 @router.post("/verify-otp")
-def verify_otp(data: dict):
+def verify_otp(data: dict, db: Session = Depends(get_db)):
     otp = data.get("otp")
 
     stored = otp_store.get("admin")
@@ -69,13 +73,19 @@ def verify_otp(data: dict):
     if stored["otp"] != otp:
         raise HTTPException(status_code=400, detail="Invalid OTP")
 
-    # Generate real JWT
-    token = create_access_token({"sub": "admin"})
+    # 🔹 Fetch admin from database
+    admin = db.query(AdminUser).filter(AdminUser.email == ADMIN_EMAIL).first()
+
+    if not admin:
+        raise HTTPException(status_code=404, detail="Admin not found")
+
+    # 🔹 Create JWT token with admin id
+    access_token = create_access_token({"sub": str(admin.id)})
 
     # Clear OTP
     otp_store.pop("admin", None)
 
     return {
-        "access_token": token,
+        "access_token": access_token,
         "token_type": "bearer"
     }

@@ -32,13 +32,16 @@ def upload_product_image(
     admin=Depends(get_current_admin)
 ):
     product = db.query(Product).filter(Product.id == product_id).first()
+
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
 
+    # Upload to cloudinary
     image_url = upload_image(file.file)
-    product.image_url = image_url
 
+    product.image_url = image_url
     db.commit()
+
     return {"image_url": image_url}
 
 @router.put("/{product_id}", response_model=ProductResponse)
@@ -85,3 +88,14 @@ def get_product(product_id: int, db: Session = Depends(get_db)):
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
     return product
+
+@router.get("/search")
+def search_products(query: str, db: Session = Depends(get_db)):
+
+    products = db.query(Product).filter(
+        Product.name.ilike(f"%{query}%"),
+        Product.is_active == True
+    ).all()
+
+    return products
+

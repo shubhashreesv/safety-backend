@@ -1,15 +1,15 @@
-from fastapi import APIRouter
-from app.models.chatbot import ChatRequest, ChatResponse
-from app.chatbot.chatbot_engine import get_chatbot_response
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+from app.database import get_db
+from app.schemas.chatbot import ChatRequest, ChatResponse
+from app.chatbot.engine import get_chatbot_response
 
-router = APIRouter()
+router = APIRouter(prefix="/chatbot", tags=["Chatbot"])
+
 
 @router.post("/chat", response_model=ChatResponse)
-def chat(request: ChatRequest):
+def chat(request: ChatRequest, db: Session = Depends(get_db)):
 
-    result = get_chatbot_response(request.message)
+    result = get_chatbot_response(request.message, db)
 
-    return ChatResponse(
-        response=result["message"],
-        products=result["products"]
-    )
+    return result

@@ -1,18 +1,40 @@
-responses = {
-    "helmet": {
-        "message": "We offer different types of safety helmets.",
-        "products": ["Construction Helmet", "Electrical Helmet"]
+from typing import Dict, List
+
+
+RESPONSES: Dict[str, Dict] = {
+    "greeting": {
+        "response": "Hello! I can help you find safety equipment or recommend products.",
+        "products": []
     },
-    "gloves": {
-        "message": "We provide multiple types of safety gloves.",
-        "products": ["Cut Resistant Gloves", "Rubber Gloves"]
+
+    "product_search": {
+        "response": "Here are some safety equipment products available.",
+        "products": []
     },
-    "mask": {
-        "message": "These masks protect against dust and harmful particles.",
-        "products": ["N95 Mask", "Respirator Mask"]
+
+    "construction_safety": {
+        "response": "Recommended equipment for construction work:",
+        "products": [
+            "Firefighter Helmet",
+            "Cut Resistant Hand Gloves",
+            "Industrial Safety Shoe / Gum Boot",
+            "High Visibility Safety Vest"
+        ]
     },
-    "shoes": {
-        "message": "Safety shoes protect your feet from workplace hazards.",
-        "products": ["Steel Toe Boots", "Anti Slip Safety Shoes"]
+
+    "fire_safety": {
+        "response": "Fire safety equipment available:",
+        "products": [
+            "Industrial Fire Extinguisher 5kg",
+            "Fire Cylinder 10kg ABC Type",
+            "Firefighter Helmet"
+        ]
+    },
+
+    "ppe_info": {
+        "response": "Personal Protective Equipment (PPE) protects workers from workplace hazards.",
+        "products": [
+            "Personal Protection Equipment Kit"
+        ]
     }
 }

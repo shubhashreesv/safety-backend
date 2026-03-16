@@ -12,7 +12,7 @@ class Product(Base):
     description = Column(Text, nullable=True)
     image_url = Column(Text, nullable=True)
     is_active = Column(Boolean, default=True)
-
+    tags = Column(String(255))
     created_by = Column(Integer, ForeignKey("admin_users.id"), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(

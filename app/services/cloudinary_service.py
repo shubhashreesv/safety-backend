@@ -10,5 +10,9 @@ cloudinary.config(
 )
 
 def upload_image(file):
-    result = cloudinary.uploader.upload(file)
+    result = cloudinary.uploader.upload(
+        file,
+        folder="products",
+        resource_type="image"
+    )
     return result["secure_url"]

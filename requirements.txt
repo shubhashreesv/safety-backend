@@ -10,3 +10,5 @@ python-jose
 sentence-transformers==2.2.2
 transformers==4.30.2
 torch==2.0.1
+
+cloudinary

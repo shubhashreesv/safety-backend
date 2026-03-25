@@ -10,10 +10,11 @@ langchain
 langchain-community
 psycopg2-binary
 
-# Force CPU-only torch (IMPORTANT)
+# JWT fix
+python-jose[cryptography]
+
+# Fix torch issue (IMPORTANT)
 --extra-index-url https://download.pytorch.org/whl/cpu
 torch==2.0.1+cpu
 torchvision==0.15.2+cpu
-
-# Then install sentence-transformers
 sentence-transformers
